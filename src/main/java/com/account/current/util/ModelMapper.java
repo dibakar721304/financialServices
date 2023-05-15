@@ -6,12 +6,15 @@ import com.account.current.model.dao.Transaction;
 import com.account.current.model.dto.CurrentAccountDto;
 import com.account.current.model.dto.CustomerDto;
 import com.account.current.model.dto.TransactionDto;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class ModelMapper {
 
-    public static CustomerDto mapToCustomerDto(Customer customer, List<CurrentAccount> currentAccountList) {
+    public CustomerDto mapToCustomerDto(Customer customer, List<CurrentAccount> currentAccountList) {
         return CustomerDto.builder()
                 .name(customer.getName())
                 .surName(customer.getSurName())
@@ -19,30 +22,34 @@ public class ModelMapper {
                 .build();
     }
 
-    private static List<CurrentAccountDto> populateAccountDto(List<CurrentAccount> currentAccountList) {
+    private List<CurrentAccountDto> populateAccountDto(List<CurrentAccount> currentAccountList) {
         return currentAccountList.stream()
-                .map(d -> ModelMapper.mapToCurrentAccountDto(d))
+                .map(currentAccount -> mapToCurrentAccountDto(currentAccount))
                 .collect(Collectors.toList());
     }
 
-    public static CurrentAccountDto mapToCurrentAccountDto(CurrentAccount currentAccount) {
+    public CurrentAccountDto mapToCurrentAccountDto(CurrentAccount currentAccount) {
         return CurrentAccountDto.builder()
                 .accountNumber(currentAccount.getAccountNumber())
                 .id(currentAccount.getId())
                 .balance(currentAccount.getBalance())
                 .customer(currentAccount.getCustomer())
+                .createDate(currentAccount.getCreateDate())
                 .description(currentAccount.getDescription())
                 .transactionList(populateTransactionDtoList(currentAccount.getTransactionList()))
                 .build();
     }
 
-    private static List<TransactionDto> populateTransactionDtoList(List<Transaction> transactionList) {
+    private List<TransactionDto> populateTransactionDtoList(List<Transaction> transactionList) {
+        if (null == transactionList) {
+            transactionList = Collections.EMPTY_LIST;
+        }
         return transactionList.stream()
-                .map(d -> ModelMapper.mapToTransactionDto(d))
+                .map(transaction -> mapToTransactionDto(transaction))
                 .collect(Collectors.toList());
     }
 
-    private static TransactionDto mapToTransactionDto(Transaction transation) {
+    private TransactionDto mapToTransactionDto(Transaction transation) {
         return TransactionDto.builder()
                 .transactionType(transation.getTransactionType())
                 .id(transation.getId())

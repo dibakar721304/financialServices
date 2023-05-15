@@ -1,6 +1,7 @@
 package com.account.current.model.dao;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,8 @@ public class CurrentAccount {
     private Customer customer;
 
     private String description;
+
+    private LocalDateTime createDate;
 
     @OneToMany
     private List<Transaction> transactionList;
