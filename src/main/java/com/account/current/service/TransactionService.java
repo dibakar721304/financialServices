@@ -4,43 +4,72 @@ import com.account.current.model.dao.CurrentAccount;
 import com.account.current.model.dao.Transaction;
 import com.account.current.repository.CurrentAccountRepository;
 import com.account.current.repository.TransactionRepository;
+import com.account.current.util.TransactionType;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class TransactionService {
     @Autowired
     CurrentAccountRepository currentAccountRepository;
+
     @Autowired
     TransactionRepository transactionRepository;
+
+    private List<Transaction> transactions;
+    private Transaction transaction;
+
     @Transactional
-    public Transaction createTransaction(Transaction transaction, String accountNumber) {
-        CurrentAccount bankAccount = currentAccountRepository.findByAccountNumber(accountNumber);
-        List<Transaction> transactions = bankAccount.getTransactionList();
-        if(null!=transactions) {
-            transactions.add(transaction);
-            bankAccount.setTransactionList(transactions);
+    public Transaction createTransaction(TransactionType transactionType, String accountNumber) {
+        CurrentAccount currentAccount = currentAccountRepository.findByAccountNumber(accountNumber);
+        transactions = currentAccount.getTransactionList();
+        if (null != transactions) {
+            return updateTransactionForCurrentAccount(currentAccount, transaction, transactionType);
         }
-        BigDecimal balance = bankAccount.getBalance();
-        if (transaction.getAmount().compareTo(balance)==1)
-            throw new RuntimeException("Balance is not enough");
-        else if (transaction.getAmount().compareTo(balance)==-1) {
-            balance.subtract(transaction.getAmount());
-            transaction.setTransactionType("Withdrawal");
-        }
-        else if(transaction.getTransactionType().equals("deposit"))
-        {
+        transactions = new ArrayList<>();
+        transaction = Transaction.builder()
+                .transactionType(transactionType)
+                .accountId(currentAccount.getId())
+                .date(LocalDateTime.now())
+                .amount(currentAccount.getBalance())
+                .description("First transaction with initial deposit")
+                .build();
+        transactions.add(transaction);
+        currentAccount.setTransactionList(transactions);
+        transaction = transactionRepository.save(transaction);
+        currentAccountRepository.save(currentAccount);
+        return transaction;
+    }
+
+    public Transaction updateTransactionForCurrentAccount(
+            CurrentAccount currentAccount, Transaction transaction, TransactionType transactionType) {
+        BigDecimal balance = currentAccount.getBalance();
+
+        if (transactionType.equals(TransactionType.WITHDRWAL)) {
+
+            if (transaction.getAmount().compareTo(balance) > 0) {
+                throw new RuntimeException("Balance is not enough");
+            } else {
+                balance.subtract(transaction.getAmount());
+            }
+        } else if (transactionType.equals(TransactionType.DEPOSIT)) {
             balance.add(transaction.getAmount());
         }
-        bankAccount.setBalance(balance);
+        currentAccount.setBalance(balance);
+        transaction.setDate(LocalDateTime.now());
+        transaction.setAccountId(currentAccount.getId());
+        transaction.setDescription("Transaction has been added to account");
+        currentAccountRepository.save(currentAccount);
+
         return transactionRepository.save(transaction);
     }
 
-    public Transaction transactionGetAPI(Long id) {
-        return transactionRepository.findById(id).orElse(null);
+    public List<Transaction> getTransactionDetails(Long account_id) {
+        return transactionRepository.findByAccountId(account_id);
     }
 }
