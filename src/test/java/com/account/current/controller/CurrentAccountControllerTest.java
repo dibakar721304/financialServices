@@ -31,14 +31,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @AutoConfigureMockMvc
 public class CurrentAccountControllerTest {
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @InjectMocks
     private CurrentAccountController currentAccountControllerMock;
 
     @Mock
     private AccountService accountServiceMock;
+
 
     private MockMvc mockMvc;
 
@@ -66,19 +65,10 @@ public class CurrentAccountControllerTest {
 
     @Test
     public void test_createAccountForCustomerNotExist() throws Exception {
-        CurrentAccountDto currentAccountDto = CurrentAccountDto.builder()
-                .id(1L)
-                .createDate(LocalDateTime.now())
-                .accountNumber("12345")
-                .customer(new Customer())
-                .build();
-        Mockito.when(accountServiceMock.createAccountForCustomer(1L, BigDecimal.ZERO))
-                .thenReturn(currentAccountDto);
-        //
-        //        mockMvc.perform(post("/account/currentAccount/1/0"))
-        //                .andExpect(status().isCreated());
 
-        mockMvc.perform(post("/account/currentAccount/0"))
+        Mockito.when(accountServiceMock.createAccountForCustomer(1L, BigDecimal.ZERO))
+                .thenThrow(new CustomerNotFoundException("customer does not exist"));
+        mockMvc.perform(post("/account/currentAccount/1/0"))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CustomerNotFoundException))
                 .andExpect(result -> assertEquals(

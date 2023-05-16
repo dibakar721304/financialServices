@@ -4,6 +4,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 import com.account.current.model.dao.CurrentAccount;
 import com.account.current.model.dao.Customer;
+import com.account.current.repository.CurrentAccountRepository;
 import com.account.current.repository.CustomerRepository;
 import com.account.current.util.ModelMapper;
 import java.math.BigDecimal;
@@ -24,6 +25,8 @@ public class AccountServiceTest {
 
     @Mock
     private CustomerRepository customerRepositoryMock;
+    @Mock
+    private CurrentAccountRepository currentAccountRepositoryMock;
 
     @Test
     public void test_createAccountForCustomer() {

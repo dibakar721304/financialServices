@@ -31,4 +31,10 @@ public class CustomerService {
         List<CurrentAccount> currentAccountList = accountService.getAccountDetails(customerId);
         return ModelMapper.mapToCustomerDto(customer, currentAccountList);
     }
+
+    public Customer createCustomer(String name, String email, String surName) {
+        Customer customer = Customer.builder().name(name).surName(surName).email(email).build();
+        customerRepository.save(customer);
+        return customer;
+    }
 }
