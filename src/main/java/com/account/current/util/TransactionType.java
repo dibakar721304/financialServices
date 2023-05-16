@@ -1,7 +1,10 @@
 package com.account.current.util;
 
-public enum TransactionType {
-    INITIAL_DEPOSIT,
-    WITHDRWAL,
-    DEPOSIT
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class TransactionType {
+    public static final String INITIAL_DEPOSIT = "INITIAL_DEPOSIT";
+    public static final String WITHDRWAL = "WITHDRWAL";
+    public static final String DEPOSIT = "DEPOSIT";
 }

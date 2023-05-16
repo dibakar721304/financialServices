@@ -11,6 +11,6 @@ public class TransactionDto {
     private Long id;
     private BigDecimal amount;
     private LocalDateTime date;
-    private Enum transactionType;
+    private String transactionType;
     private String description;
 }

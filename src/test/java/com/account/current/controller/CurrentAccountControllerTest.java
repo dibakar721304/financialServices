@@ -10,7 +10,6 @@ import com.account.current.model.dao.Customer;
 import com.account.current.model.dto.CurrentAccountDto;
 import com.account.current.repository.CurrentAccountRepository;
 import com.account.current.service.AccountService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,13 +30,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @AutoConfigureMockMvc
 public class CurrentAccountControllerTest {
 
-
     @InjectMocks
     private CurrentAccountController currentAccountControllerMock;
 
     @Mock
     private AccountService accountServiceMock;
-
 
     private MockMvc mockMvc;
 

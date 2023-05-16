@@ -25,6 +25,7 @@ public class AccountServiceTest {
 
     @Mock
     private CustomerRepository customerRepositoryMock;
+
     @Mock
     private CurrentAccountRepository currentAccountRepositoryMock;
 

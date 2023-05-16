@@ -49,20 +49,21 @@ public class CustomerController {
     /**
      * @auther anant dibakar
      * @date 16/05/2023
-     * End point to get details for existing customer.
+     * End point to create a new customer.
      * @param name,email,surName
      * @return A customer object.
      */
     @ApiOperation("Create a new account with initial credit")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 202, message = "User created"),
-                    @ApiResponse(code = 400, message = "Invalid request"),
-                    @ApiResponse(code = 404, message = "Not found")
+                @ApiResponse(code = 202, message = "User created"),
+                @ApiResponse(code = 400, message = "Invalid request"),
+                @ApiResponse(code = 404, message = "Not found")
             })
     @PostMapping("/create/{name}/{email}/{surName}")
-    public ResponseEntity<Customer> createCustomer(@PathVariable String name, @PathVariable String email, @PathVariable String surName) {
+    public ResponseEntity<Customer> createCustomer(
+            @PathVariable String name, @PathVariable String email, @PathVariable String surName) {
         log.debug("A request sent with to create customer ");
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.createCustomer(name,email,surName));
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.createCustomer(name, email, surName));
     }
 }

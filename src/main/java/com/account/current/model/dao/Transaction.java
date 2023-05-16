@@ -21,7 +21,7 @@ public class Transaction {
 
     private BigDecimal amount;
     private LocalDateTime date;
-    private Enum transactionType;
+    private String transactionType;
     private String description;
     private Long accountId;
 }

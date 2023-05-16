@@ -33,7 +33,8 @@ public class CustomerService {
     }
 
     public Customer createCustomer(String name, String email, String surName) {
-        Customer customer = Customer.builder().name(name).surName(surName).email(email).build();
+        Customer customer =
+                Customer.builder().name(name).surName(surName).email(email).build();
         customerRepository.save(customer);
         return customer;
     }

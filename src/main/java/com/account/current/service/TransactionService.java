@@ -39,8 +39,7 @@ public class TransactionService {
      * @return Transaction object.
      */
     @Transactional
-    public Transaction createTransaction(TransactionType transactionType, String accountNumber)
-            throws AccountNotFoundException {
+    public Transaction createTransaction(String transactionType, String accountNumber) throws AccountNotFoundException {
         CurrentAccount currentAccount = currentAccountRepository.findByAccountNumber(accountNumber);
         if (null == currentAccount) {
             log.error("account does not exist, transaction can not be created");
