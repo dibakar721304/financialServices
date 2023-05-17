@@ -9,50 +9,45 @@
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.account</groupId>
-    <artifactId>current</artifactId>
+    <groupId>com.banking</groupId>
+    <artifactId>banking-services</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>financialServices</name>
-    <description>financialServices</description>
+    <name>bankingServices</name>
+    <description>Rest APIs for banking services</description>
     <properties>
         <h2.version>2.1.214</h2.version>
         <java.version>11</java.version>
-        <!-- Logging -->
         <logback.version>1.2.3</logback.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <mockitoinlie.version>5.2.0</mockitoinlie.version>
+        <openapi.version>1.7.0</openapi.version>
         <slf4j.version>1.7.30</slf4j.version>
+        <snakeyml.version>2.0</snakeyml.version>
         <spotless.version>2.36.0</spotless.version>
-
+        <swagger.version>1.6.8</swagger.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <version>${openapi.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <version>${snakeyml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
-            <version>5.2.0</version>
+            <version>${mockitoinlie.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -86,7 +81,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.6.8</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>

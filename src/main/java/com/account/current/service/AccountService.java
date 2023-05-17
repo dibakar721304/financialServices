@@ -1,5 +1,6 @@
 package com.account.current.service;
 
+import com.account.current.exception.AccountNotFoundException;
 import com.account.current.exception.CustomerNotFoundException;
 import com.account.current.model.dao.CurrentAccount;
 import com.account.current.model.dao.Customer;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +63,7 @@ public class AccountService {
                 currentAccount.getAccountNumber());
         if (initialCredit.compareTo(BigDecimal.ZERO) != 0) {
             log.info("Starting new transaction for account id {}", currentAccount.getId());
-            transactionService.createTransaction(TransactionType.INITIAL_DEPOSIT, currentAccount.getAccountNumber());
+            transactionService.createTransaction(TransactionType.INITIAL_DEPOSIT, currentAccount);
         }
         CurrentAccountDto currentAccountDto = ModelMapper.mapToCurrentAccountDto(currentAccount);
         return currentAccountDto;
@@ -74,5 +76,16 @@ public class AccountService {
             currentAccountList = Collections.emptyList();
         }
         return currentAccountList;
+    }
+
+    public CurrentAccountDto updateAccountForCustomer(
+            Long accountId, BigDecimal transactionAmount, String transactionType) {
+        Optional<CurrentAccount> currentAccountOptional = Optional.ofNullable(currentAccountRepository
+                .findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found")));
+        CurrentAccount currentAccount = currentAccountOptional.get();
+        currentAccount = transactionService.updateCurrentAccountWithTransaction(
+                currentAccount, transactionAmount, transactionType);
+        return ModelMapper.mapToCurrentAccountDto(currentAccount);
     }
 }

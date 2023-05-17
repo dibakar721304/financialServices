@@ -47,4 +47,32 @@ public class CurrentAccountController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(accountService.createAccountForCustomer(customerId, initialCredit));
     }
+    /**
+     * @auther anant dibakar
+     * @date 17/05/2023
+     * End point to update account for existing customer.
+     * @param accountId,transactionAmount and transactionType
+     * @throws
+     * @return An account object.
+     */
+    @ApiOperation("Create a new account with initial credit")
+    @ApiResponses(
+            value = {
+                @ApiResponse(code = 200, message = "Account has been update successfully"),
+                @ApiResponse(code = 400, message = "Invalid request"),
+                @ApiResponse(code = 404, message = "Account not found")
+            })
+    @PutMapping(value = "/currentAccount/{accountId}/{transactionAmount}/{transactionType}")
+    public ResponseEntity<CurrentAccountDto> updateAccountForCustomer(
+            @PathVariable Long accountId,
+            @PathVariable BigDecimal transactionAmount,
+            @PathVariable String transactionType) {
+        log.debug(
+                "A request sent with accountId {} and initial credit amount {}",
+                accountId,
+                transactionAmount,
+                transactionType);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(accountService.updateAccountForCustomer(accountId, transactionAmount, transactionType));
+    }
 }
