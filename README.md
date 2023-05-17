@@ -23,12 +23,12 @@ customer id: take from response (step 6)
 8) To check details for customer, use below end point:
 http://localhost:8080/swagger-ui/index.html#/customer-controller/getCustomerDetails
 9) To update account with new transaction, please check below end point:
-   http://localhost:8080/swagger-ui/index.html#/current-account-controller/updateAccountForCustomer
+http://localhost:8080/swagger-ui/index.html#/current-account-controller/updateAccountForCustomer
 
-   e.g param: accountId (take from response of end point in step 7)
-              transactionType ( can be WITHDRAWAL or DEPOSIT)
-              transactionAmount( can have any value. Should give message 'balance is not enough' if this value
-              is more than account balance)
+e.g param: accountId (take from response of end point in step 7)
+transactionType ( can be WITHDRAWAL or DEPOSIT)
+transactionAmount( can have any value. Should give message 'balance is not enough' if this value
+is more than account balance)
 9) To check database, please use below end point:
 http://localhost:8080/h2-console/login.jsp
 
