@@ -98,8 +98,8 @@ public class TransactionService {
                 .build();
         transactionRepository.save(transaction);
         updateTransactionList(currentAccount, transaction);
-
-        return currentAccountRepository.save(currentAccount);
+        currentAccountRepository.save(currentAccount);
+        return currentAccount;
     }
 
     private void updateTransactionList(CurrentAccount currentAccount, Transaction transaction) {
