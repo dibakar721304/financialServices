@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build & push Docker image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v3
       with:
           image: dibakar721304/banking-services
           tags: latestBankingApp
