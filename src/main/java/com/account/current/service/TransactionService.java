@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -20,24 +19,27 @@ import org.springframework.util.CollectionUtils;
 public class TransactionService {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TransactionService.class);
 
-    @Autowired
-    CurrentAccountRepository currentAccountRepository;
+    private final CurrentAccountRepository currentAccountRepository;
 
-    @Autowired
-    TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     private List<Transaction> transactions;
     private Transaction transaction;
 
+    public TransactionService(
+            CurrentAccountRepository currentAccountRepository, TransactionRepository transactionRepository) {
+        this.currentAccountRepository = currentAccountRepository;
+        this.transactionRepository = transactionRepository;
+    }
+
     /**
      * @auther anant dibakar
      * @date 15/05/2023
-     * This method creates account for existing customer with initial credit amount.
-     * If an initial credit amount is other than zero, a new transaction will be created for the account created
+     * This method creates a new transaction for existing account .
      * @param transactionType
      * @param currentAccount
-     * @throws
-     * @return Transaction object.
+     * @throws AccountNotFoundException
+     * @return A transaction object.
      */
     @Transactional
     public Transaction createTransaction(String transactionType, CurrentAccount currentAccount)
@@ -67,13 +69,13 @@ public class TransactionService {
      * @param transactionType
      * @param currentAccount
      * @param transactionAmount
-     * @throws
+     * @throws InsufficientFundException
      * @return An account object.
      */
     public CurrentAccount updateCurrentAccountWithTransaction(
             CurrentAccount currentAccount, BigDecimal transactionAmount, String transactionType) {
         log.debug("A new request for updating account with new transaction");
-        BigDecimal balance = currentAccount.getBalance();
+        var balance = currentAccount.getBalance();
 
         if (transactionType.equals(TransactionType.WITHDRAWAL)) {
 
@@ -94,7 +96,7 @@ public class TransactionService {
                 .transactionType(transactionType)
                 .accountId(currentAccount.getId())
                 .amount(transactionAmount)
-                .description("Account has been update with new transaction")
+                .description("Account has been updated with new transaction")
                 .build();
         transactionRepository.save(transaction);
         updateTransactionList(currentAccount, transaction);

@@ -7,7 +7,6 @@ import com.account.current.model.dto.CustomerDto;
 import com.account.current.repository.CustomerRepository;
 import com.account.current.util.ModelMapper;
 import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,18 +15,18 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, AccountService accountService) {
         this.customerRepository = customerRepository;
+        this.accountService = accountService;
     }
 
     public CustomerDto getCustomerDetails(Long customerId) {
-        log.debug("A request has been created for customer id {}", customerId);
+        log.debug("A request has been created for fetching customer details with id {}", customerId);
         Customer customer = customerRepository
                 .findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer does not exist"));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
         List<CurrentAccount> currentAccountList = accountService.getAccountDetails(customerId);
         return ModelMapper.mapToCustomerDto(customer, currentAccountList);
     }
