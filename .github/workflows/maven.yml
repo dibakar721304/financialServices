@@ -38,8 +38,8 @@ jobs:
     - name: Build & push Docker image
       uses: docker/build-push-action@v1
       with:
-        image: ${{ secrets.DOCKERHUB_USERNAME }}/banking-services
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/banking-services:latestBankingApp
+        image: banking-services
+        tags: latestBankingApp
         registry: docker.io
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
