@@ -38,7 +38,7 @@ jobs:
     - name: Build & push Docker image
       uses: docker/build-push-action@v1
       with:
-        image: banking-services
+        image: financialservices
         tags: latestBankingApp
         registry: docker.io
         dockerfile: Dockerfile
