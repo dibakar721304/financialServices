@@ -44,11 +44,11 @@ http://localhost:8080/h2-console/login.jsp
         username:sa
         password:sa
 
-11) Docker hub repository link : https://hub.docker.com/repository/docker/dibakar721304/banking-services
+11) Docker hub repository link : https://hub.docker.com/repository/docker/dibakar721304/financialservices
 Steps to run it locally:
 a) Execute below command in terminal :
-'docker pull dibakar721304/banking-services:latestBankingApp'
+'docker pull dibakar721304/financialservices:latestBankingApp'
 b) Execute below command to run:
-'docker run dibakar721304/banking-services:latestBankingApp'
+'docker run dibakar721304/financialservices:latestBankingApp'
 All the  links should be available on localhost:8080
 
