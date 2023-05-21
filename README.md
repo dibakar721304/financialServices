@@ -49,6 +49,6 @@ Steps to run it locally:
 a) Execute below command in terminal :
 'docker pull dibakar721304/financialservices:latestBankingApp'
 b) Execute below command to run:
-'docker run dibakar721304/financialservices:latestBankingApp'
-All the  links should be available on localhost:8080
+'docker run  -p 80:8080 -d dibakar721304/financialservices:latestBankingApp'
+All the  links should be available on localhost:80
 
