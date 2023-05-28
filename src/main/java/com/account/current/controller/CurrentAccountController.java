@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("account")
+@RequestMapping("accounts")
 public class CurrentAccountController {
     private final AccountService accountService;
 

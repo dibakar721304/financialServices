@@ -10,7 +10,6 @@ import com.account.current.util.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -22,9 +21,6 @@ public class TransactionService {
     private final CurrentAccountRepository currentAccountRepository;
 
     private final TransactionRepository transactionRepository;
-
-    private List<Transaction> transactions;
-    private Transaction transaction;
 
     public TransactionService(
             CurrentAccountRepository currentAccountRepository, TransactionRepository transactionRepository) {
@@ -48,8 +44,8 @@ public class TransactionService {
             log.error("account does not exist, transaction can not be created");
             throw new AccountNotFoundException("account does not exisst");
         }
-        transactions = new ArrayList<>();
-        transaction = Transaction.builder()
+        var transactions = new ArrayList<Transaction>();
+        var transaction = Transaction.builder()
                 .transactionType(transactionType)
                 .accountId(currentAccount.getId())
                 .date(LocalDateTime.now())
@@ -91,7 +87,7 @@ public class TransactionService {
             log.debug("Remaining balance after deposit {}", balance);
         }
         currentAccount.setBalance(balance);
-        transaction = Transaction.builder()
+        var transaction = Transaction.builder()
                 .date(LocalDateTime.now())
                 .transactionType(transactionType)
                 .accountId(currentAccount.getId())
@@ -106,7 +102,7 @@ public class TransactionService {
 
     private void updateTransactionList(CurrentAccount currentAccount, Transaction transaction) {
         if (CollectionUtils.isEmpty(currentAccount.getTransactionList())) {
-            transactions = new ArrayList<>();
+            var transactions = new ArrayList<Transaction>();
             transactions.add(transaction);
             currentAccount.setTransactionList(transactions);
         } else {

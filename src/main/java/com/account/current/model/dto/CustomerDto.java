@@ -10,6 +10,6 @@ public class CustomerDto {
     private String name;
     private String email;
     private String surName;
-    private List<CurrentAccountDto> currentAccountDtoList;
+    private List<CurrentAccountDto> currentAccounts;
     private String message;
 }

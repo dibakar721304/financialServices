@@ -50,7 +50,7 @@ public class AccountService {
         Customer customer = customerRepository
                 .findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("customer not found"));
-        CurrentAccount currentAccount = CurrentAccount.builder()
+        var currentAccount = CurrentAccount.builder()
                 .accountNumber(UUID.randomUUID().toString().replace("-", ""))
                 .customer(customer)
                 .balance(initialCredit)
@@ -66,8 +66,8 @@ public class AccountService {
             log.info("Starting new transaction for account id {}", currentAccount.getId());
             transactionService.createTransaction(TransactionType.INITIAL_DEPOSIT, currentAccount);
         }
-        CurrentAccountDto currentAccountDto = ModelMapper.mapToCurrentAccountDto(currentAccount);
-        return currentAccountDto;
+
+        return ModelMapper.mapToCurrentAccountDto(currentAccount);
     }
 
     public List<CurrentAccount> getAccountDetails(Long customerId) {

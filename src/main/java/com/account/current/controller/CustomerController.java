@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("customer")
+@RequestMapping("customers")
 public class CustomerController {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AccountService.class);
 

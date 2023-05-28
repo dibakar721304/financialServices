@@ -18,7 +18,8 @@ public class ModelMapper {
         return CustomerDto.builder()
                 .name(customer.getName())
                 .surName(customer.getSurName())
-                .currentAccountDtoList(populateAccountDto(currentAccountList))
+                .email(customer.getEmail())
+                .currentAccounts(populateAccountDto(currentAccountList))
                 .build();
     }
 

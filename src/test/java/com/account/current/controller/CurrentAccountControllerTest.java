@@ -57,7 +57,7 @@ public class CurrentAccountControllerTest {
         Mockito.when(accountServiceMock.createAccountForCustomer(1L, BigDecimal.ZERO))
                 .thenReturn(currentAccountDto);
 
-        mockMvc.perform(post("/account/currentAccount/1/0")).andExpect(status().isCreated());
+        mockMvc.perform(post("/accounts/currentAccount/1/0")).andExpect(status().isCreated());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CurrentAccountControllerTest {
 
         Mockito.when(accountServiceMock.createAccountForCustomer(1L, BigDecimal.ZERO))
                 .thenThrow(new CustomerNotFoundException("customer does not exist"));
-        mockMvc.perform(post("/account/currentAccount/1/0"))
+        mockMvc.perform(post("/accounts/currentAccount/1/0"))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof CustomerNotFoundException))
                 .andExpect(result -> assertEquals(
